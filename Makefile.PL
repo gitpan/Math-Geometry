@@ -1,12 +1,13 @@
 use ExtUtils::MakeMaker;
-
+my $module = 'Geometry.pm';
 WriteMakefile(
-NAME => 'Math::Geometry',
-VERSION_FROM => 'Geometry.pm',
-PM =>     {'Geometry.pm' => '$(INST_LIBDIR)/Geometry.pm',
-	   },
-dist => {
-	COMPRESS => 'gzip -9', SUFFIX => 'gz'
-},
+              NAME         => 'Math::Geometry',
+              VERSION_FROM => $module,
+              PREREQ_PM    => {
+                               Test::More => 0,
+                               Math::Matrix => 0
+                              },
+              AUTHOR       => 'Greg McCarroll <greg@mccarroll.demon.co.uk>',
+             );
 
-);
+

@@ -1,6 +1,0 @@
-
-Add in 2D special cases.
-
-C implementation.
-
-Remove dependency on Math::Matrix

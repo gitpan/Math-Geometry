@@ -12,25 +12,28 @@ Math::Geometry - Geometry related functions
 
 =head1 SYNOPSIS
 
-	use Math::Geometry;
+        use Math::Geometry;
 
-	@P2=rotx(@P1,$angle);
-	@P3=rotx(@P1,$angle);
-	@N =triangle_normal(@P1,@P2,@P3);
-	@ZP=zplane_project(@P1,$d);
+        @P2=rotx(@P1,$angle);
+        @P3=rotx(@P1,$angle);
+        @N =triangle_normal(@P1,@P2,@P3);
+        @ZP=zplane_project(@P1,$d);
 
 
 =head1 NOTES
 
-Currently for zplane_project onto a plane with normal of the z axis and z=0, 
-the function returns the orthographic projections as opposed to a perspective 
-projection. I'm currently looking into how to properly handle z=0 and will 
+This is about to get a massive overhaul, but first im adding tests,
+lots of lovely lovely tests.
+
+Currently for zplane_project onto a plane with normal of the z axis and z=0,
+the function returns the orthographic projections as opposed to a perspective
+projection. I'm currently looking into how to properly handle z=0 and will
 update it shortly.
 
 =head1 DESCRIPTION
 
-This package implements classic geometry methods. It should be considered alpha 
-software and any feedback at all is greatly appreciated. The following methods 
+This package implements classic geometry methods. It should be considered alpha
+software and any feedback at all is greatly appreciated. The following methods
 are available:
 
 =head2 vector_product.
@@ -59,19 +62,19 @@ at a distance d from z=0.
 =head2 rotx
 
 Rotate about the x axis r radians.
-    
+
     ($x2,$y2,$z2) = rotx ($x1,$y1,$z1,$r);
 
 =head2 roty
 
 Rotate about the y axis r radians.
-    
+
     ($x2,$y2,$z2) = roty ($x1,$y1,$z1,$r);
 
 =head2 rotz
 
 Rotate about the z axis r radians.
-    
+
     ($x2,$y2,$z2) = rotz ($x1,$y1,$z1,$r);
 
 =head2 deg2rad
@@ -84,7 +87,7 @@ Convert radians to degree's.
 
 =head2 pi
 
-Returns an approximate value of Pi, the code has been cribed from Pg146, Programming Perl 
+Returns an approximate value of Pi, the code has been cribed from Pg146, Programming Perl
 2nd Ed.
 
 =head1 EXAMPLE
@@ -105,7 +108,7 @@ require Exporter;
 
 use Math::Matrix;
 
-$VERSION=' 0.2';
+$VERSION='0.03';
 
 sub version {
     return "Math::Geometry $VERSION";
@@ -124,59 +127,59 @@ sub triangle_normal {
     return(vector_product(@AB,@AC));
 }
 
-sub zplane_project ($$$$) {
+sub zplane_project {
     my($x,$y,$z,$d)=@_;
     my($w);
     my($xp,$yp,$zp);
     if ($d == 0) {
-	my($trans)=new Math::Matrix ([       1,       0,       0,       0],
-				     [       0,       1,       0,       0],
-				     [       0,       0,       0,       0],
-				     [       0,       0,       0,       1]);
-	my($orig) =new Math::Matrix ([      $x],
-				     [      $y],
-				     [      $z],
-				     [       1]);
-	my($prod) =$trans->multiply($orig);
-	$x=$prod->[0][0];
-	$y=$prod->[1][0];
-	$z=$prod->[2][0];
-	$w=$prod->[3][0];
+        my($trans)=new Math::Matrix ([       1,       0,       0,       0],
+                                     [       0,       1,       0,       0],
+                                     [       0,       0,       0,       0],
+                                     [       0,       0,       0,       1]);
+        my($orig) =new Math::Matrix ([      $x],
+                                     [      $y],
+                                     [      $z],
+                                     [       1]);
+        my($prod) =$trans->multiply($orig);
+        $x=$prod->[0][0];
+        $y=$prod->[1][0];
+        $z=$prod->[2][0];
+        $w=$prod->[3][0];
     } else {
-	my($trans)=new Math::Matrix ([       1,       0,       0,       0],
-				     [       0,       1,       0,       0],
-				     [       0,       0,       1,       0],
-				     [       0,       0,     1/$d,      0]);
-	my($orig) =new Math::Matrix ([      $x],
-				     [      $y],
-				     [      $z],
-				     [       1]);
-	my($prod) =$trans->multiply($orig);
-	$x=$prod->[0][0];
-	$y=$prod->[1][0];
-	$z=$prod->[2][0];
-	$w=$prod->[3][0];
-	$x=$x/$w;
-	$y=$y/$w;
-	$z=$z/$w;
+        my($trans)=new Math::Matrix ([       1,       0,       0,       0],
+                                     [       0,       1,       0,       0],
+                                     [       0,       0,       1,       0],
+                                     [       0,       0,     1/$d,      0]);
+        my($orig) =new Math::Matrix ([      $x],
+                                     [      $y],
+                                     [      $z],
+                                     [       1]);
+        my($prod) =$trans->multiply($orig);
+        $x=$prod->[0][0];
+        $y=$prod->[1][0];
+        $z=$prod->[2][0];
+        $w=$prod->[3][0];
+        $x=$x/$w;
+        $y=$y/$w;
+        $z=$z/$w;
     }
     return ($x,$y,$z);
 }
 
 
-sub rotx ($$$$) {
+sub rotx {
     my($x,$y,$z,$rot)=@_;
     my($cosr)=cos $rot;
     my($sinr)=sin $rot;
     my($trans)=new Math::Matrix ([       1,       0,       0,       0],
-				 [       0,   $cosr,-1*$sinr,       0],
-				 [       0,   $sinr,   $cosr,       0],
-				 [       0,       0,       0,       1]);
+                                 [       0,   $cosr,-1*$sinr,       0],
+                                 [       0,   $sinr,   $cosr,       0],
+                                 [       0,       0,       0,       1]);
 
     my($orig) =new Math::Matrix ([      $x],
-				 [      $y],
-				 [      $z],
-				 [       1]);
+                                 [      $y],
+                                 [      $z],
+                                 [       1]);
 
     my($prod) =$trans->multiply($orig);
     $x=$prod->[0][0];
@@ -185,19 +188,19 @@ sub rotx ($$$$) {
     return ($x,$y,$z);
 }
 
-sub roty ($$$$) {
+sub roty {
     my($x,$y,$z,$rot)=@_;
     my($cosr)=cos $rot;
     my($sinr)=sin $rot;
     my($trans)=new Math::Matrix ([   $cosr,       0,   $sinr,       0],
-				 [       0,       1,       0,       0],
-				 [-1*$sinr,       0,   $cosr,       0],
-				 [       0,       0,       0,       1]);
+                                 [       0,       1,       0,       0],
+                                 [-1*$sinr,       0,   $cosr,       0],
+                                 [       0,       0,       0,       1]);
 
     my($orig) =new Math::Matrix ([      $x],
-				 [      $y],
-				 [      $z],
-				 [       1]);
+                                 [      $y],
+                                 [      $z],
+                                 [       1]);
 
     my($prod) =$trans->multiply($orig);
     $x=$prod->[0][0];
@@ -206,19 +209,19 @@ sub roty ($$$$) {
     return ($x,$y,$z);
 }
 
-sub rotz ($$$$) {
+sub rotz {
     my($x,$y,$z,$rot)=@_;
     my($cosr)=cos $rot;
     my($sinr)=sin $rot;
     my($trans)=new Math::Matrix ([   $cosr,-1*$sinr,       0,       0],
-				 [   $sinr,   $cosr,       0,       0],
-				 [       0,       0,       1,       0],
-				 [       0,       0,       0,       1]);
+                                 [   $sinr,   $cosr,       0,       0],
+                                 [       0,       0,       1,       0],
+                                 [       0,       0,       0,       1]);
 
     my($orig) =new Math::Matrix ([      $x],
-				 [      $y],
-				 [      $z],
-				 [       1]);
+                                 [      $y],
+                                 [      $z],
+                                 [       1]);
 
     my($prod) =$trans->multiply($orig);
     $x=$prod->[0][0];
@@ -240,8 +243,8 @@ sub rad2deg ($) {
 {
     my($PI);
     sub pi() {
-	$PI ||= atan2(1,1)*4;
-	return $PI;
+        $PI ||= atan2(1,1)*4;
+        return $PI;
     }
 }
 

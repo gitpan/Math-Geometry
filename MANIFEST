@@ -1,7 +1,5 @@
-ChangeLog
-COPYRIGHT
 Geometry.pm
 Makefile.PL
 MANIFEST
 README
-TODO
+t/Math-Geometry.t

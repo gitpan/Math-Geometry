@@ -2,4 +2,6 @@ Geometry.pm
 Makefile.PL
 MANIFEST
 README
+CHANGES
 t/Math-Geometry.t
+META.yml                                 Module meta-data (added by MakeMaker)

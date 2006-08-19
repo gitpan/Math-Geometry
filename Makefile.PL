@@ -7,7 +7,7 @@ WriteMakefile(
                                Test::More => 0,
                                Math::Matrix => 0
                               },
-              AUTHOR       => 'Greg McCarroll <greg@mccarroll.demon.co.uk>',
+              AUTHOR       => 'Greg McCarroll <greg@mccarroll.org.uk>',
              );
 
 

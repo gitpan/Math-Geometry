@@ -1,8 +1,7 @@
-#!/usr/local/bin/perl -w
 #
 # Filename        : Math/Geometry.pm
 # Description     : General Geometry maths functions
-# Author          : Greg McCarroll (greg@mccarroll.demon.co.uk)
+# Author          : Greg McCarroll (greg@mccarroll.org.uk)
 # Date Created    : 22/10/99
 #
 
@@ -96,19 +95,31 @@ Returns an approximate value of Pi, the code has been cribed from Pg146, Program
 
 =head1 AUTHOR
 
-    Greg McCarroll <greg@mccarroll.demon.co.uk>
+    Greg McCarroll <greg@mccarroll.org.uk> 
+    - http://www.mccarroll.org.uk/~gem/
+
+=head1 COPYRIGHT
+
+Copyright 2006 by Greg McCarroll <greg@mccarroll.org.uk>
+
+This program is free software; you can redistribute it and/or modify it under the same terms as Perl itself.
+
+See http://www.perl.com/perl/misc/Artistic.html
 
 =cut
 
 package Math::Geometry;
 
+use strict;
+use warnings;
+
 require Exporter;
-@ISA='Exporter';
-@EXPORT = qw/zplane_project triangle_normal rotx roty rotz rad2deg deg2rad pi/;
+our @ISA='Exporter';
+our @EXPORT = qw/zplane_project triangle_normal rotx roty rotz rad2deg deg2rad pi/;
 
 use Math::Matrix;
 
-$VERSION='0.03';
+our $VERSION='0.04';
 
 sub version {
     return "Math::Geometry $VERSION";

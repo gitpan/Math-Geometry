@@ -13,7 +13,8 @@ is(deg2rad(180),pi(),'deg2rad ok #1');
 is(deg2rad(0),0,'deg2rad ok #2');
 
 
-my @p1, @p2;
+my @p1;
+my @p2;
 
 @p1 = (1,1,1);
 @p2 =rotx(roty(rotz(@p1,pi()),pi()),pi());
